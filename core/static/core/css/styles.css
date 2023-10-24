@@ -1,0 +1,48 @@
+header{
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+
+#logo{
+    height: 100px;
+    width: 100px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+hr{
+    margin-top: 15px;
+}
+
+#titulo{
+    margin-top: 25px;
+    text-align:start;
+    font-size: 50px;
+}
+
+.navbar-nav{
+    margin-left: 130px;
+}
+
+.nav-item{
+    margin-right: 15px;
+}
+
+#formulario{
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+
+#comunicadosCarousel {
+    width: 80vh;
+}
+
+.carousel-item .card {
+    width: 80%;
+    margin: auto;
+}

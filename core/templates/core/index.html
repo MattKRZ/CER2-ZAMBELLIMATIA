@@ -1,0 +1,93 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div id="formulario" class="row align-items-center mb-4">
+        <div class="col-11 col-sm-2 col-md-5 col-lg-4 d-md-block d-sm-block d-block d-lg-block d-xl-block d-xxl-none">
+            <form action="{% url 'home' %}" method="GET" id="filtroForm">
+                {% csrf_token %}
+                <select class="form-select" name="Departamento" id="entidadSelect">
+                    <option value="" 
+                        {% if not filtrar_entidad %}
+                            selected
+                        {% endif %}>
+                        Departamentos
+                    </option>
+                    {% for entidad in entidades %}
+                        <option value="{{ entidad.nombre }}"
+                        {% if filtrar_entidad == entidad.nombre %}
+                        selected
+                        {% endif %}>
+                        {{ entidad.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <div class="row d-md-block d-sm-block d-block d-lg-block d-xl-block d-xxl-none">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+            {% for comunicado in comunicados %}
+                {% if comunicado.visible %}
+                        <div class="col mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ comunicado.titulo }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ comunicado.entidad.nombre }}</h6>
+                                    <p class="card-text">{{ comunicado.detalle }}</p>
+                                    <p class="card-text">{{ comunicado.fecha_publicacion }}</p>
+                                </div>
+                            </div>
+                        </div>
+                {% endif %}
+                {% empty %}
+                <div class="col-12">
+                    <h3>No existen comunicados de dicha entidad</h3>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="container-xxl d-md-none d-sm-none d-none d-lg-none d-xl-none d-xxl-block">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for comunicado in comunicados %}
+                {% if comunicado.visible %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="card h-50 d-flex align-items-start justify-content-start">
+                            <div class="card-body text-start">
+                                <h1 class="card-title">{{ comunicado.titulo }}</h1>
+                                <h3 class="card-subtitle text-body-secondary">{{ comunicado.entidad }}</h3>
+                                &nbsp;
+                                <p class="card-text">{{ comunicado.detalle }}</p>
+                                <p class="card-text">{{ comunicado.fecha_publicacion }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                {% empty %}
+                <div class="col-12">
+                    <h3>No existen comunicados</h3>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"></span>
+        </button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('entidadSelect').addEventListener('change', function() {
+        document.getElementById('filtroForm').submit();
+    });
+</script>
+
+{% endblock %}
